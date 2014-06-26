@@ -1,5 +1,5 @@
 # Description:
-#   None
+#   Outputs a list of Hacker News articles.
 #
 # Dependencies:
 #   None
@@ -21,8 +21,11 @@
 respondWithHN = (message) ->
   message.http('http://api.ihackernews.com/page').get() (error, res, body) ->
     json = JSON.parse(body)
-    items = json.items.map (item) ->
-      "#{item.title} - #{item.points} (#{item.commentCount}) #{item.url}"
+
+    orderedItems = json.items.sort (a, b) ->
+      b.points - a.points
+    items = orderedItems.map (item) ->
+      "#{item.title} - #{item.url}"
 
     message.send items.join("\n")
 
