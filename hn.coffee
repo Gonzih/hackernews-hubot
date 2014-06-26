@@ -8,7 +8,11 @@
 #   None
 #
 # Commands:
-#   hubot nh me - Returns front page
+#   hubot nh me       - Returns front page of HN
+#   hubot nh          - Returns front page of HN
+#   hubot hackernews  - Returns front page of HN
+#   hubot hacker news - Returns front page of HN
+#   hubot hacker      - Returns front page of HN
 #
 # Author:
 #   Max Gonzih
