@@ -5,7 +5,9 @@
 #   None
 #
 # Configuration:
-#   None
+#   HN_HIPCHAT_COLOR - green by default
+#   HIPCHAT_TOKEN - v1 api token
+#   HN_HIPCHAT_ROOM - target room
 #
 # Commands:
 #   hubot nh me       - Returns front page of HN
@@ -32,7 +34,8 @@ respondWithHN = (message) ->
         linkTo(item.url, item.title, item.points, item.commentCount)
 
       env = process.env
-      url = "http://api.hipchat.com/v1/rooms/message?auth_token=#{env.HIPCHAT_TOKEN}&room_id=#{env.HN_HIPCHAT_ROOM}&from=HackerNews&message_format=html&format=json&message=#{items.join("<br />")}"
+      color = env.HN_HIPCHAT_COLOR || 'green'
+      url = "http://api.hipchat.com/v1/rooms/message?auth_token=#{env.HIPCHAT_TOKEN}&room_id=#{env.HN_HIPCHAT_ROOM}&color=#{color}&from=HackerNews&message_format=html&format=json&message=#{items.join("<br />")}"
       message.http(url)
         .get() (error, res, body) ->
           console.log(body)
