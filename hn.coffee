@@ -18,13 +18,25 @@
 #   Max Gonzih
 #
 #
+http = require('http')
+
+sanitize (string) ->
+  string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+linkTo(url, text) ->
+  "<a href=\"#{url}\">#{sanitize(text)}</a>"
+
 respondWithHN = (message) ->
   message.http('http://api.ihackernews.com/page').get() (error, res, body) ->
     json  = JSON.parse(body)
     items = json.items.map (item) ->
-      "#{item.title} - #{item.url}"
+      linkTo(item.url, item.title)
 
-    message.send items.join("\n")
+    items.forEach (item, index) ->
+      http.request(
+        host: "api.hipchat.com"
+        path: "/v1/rooms/message?auth_token=#{env.HIPCHAT_TOKEN}&room_id=#{env.GITLAB_HIPCHAT_ROOMS}&from=HN-#{index}&message_format=html&format=json&message=#{item}"
+      ).end()
 
 module.exports = (robot)->
   robot.respond /hacker(\s?news)?/i, respondWithHN
