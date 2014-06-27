@@ -20,11 +20,8 @@
 #
 respondWithHN = (message) ->
   message.http('http://api.ihackernews.com/page').get() (error, res, body) ->
-    json = JSON.parse(body)
-
-    orderedItems = json.items.sort (a, b) ->
-      b.points - a.points
-    items = orderedItems.map (item) ->
+    json  = JSON.parse(body)
+    items = json.items.map (item) ->
       "#{item.title} - #{item.url}"
 
     message.send items.join("\n")
