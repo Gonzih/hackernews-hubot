@@ -27,7 +27,7 @@ linkTo = (url, text, points, comments) ->
   "<a href=\"#{url}\">#{sanitize(text)} - [#{points} (#{comments})]</a>"
 
 respondWithHN = (message) ->
-  message.http('http://api.ihackernews.com/page').get() (error, res, body) ->
+  message.http('http://hn.gonzih.me').get() (error, res, body) ->
     try
       json  = JSON.parse(body)
       items = json.items.map (item) ->
